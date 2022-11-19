@@ -1,0 +1,8 @@
+-------- Error Logs --------
+
+
+--- Exception [compare] 2022-11-19 10:03:57---
+Can only compare identically-labeled DataFrame objects
+
+--- Message 2022-11-19 10:03:57                             ---
+More than 50 records are Mismatched !!.. Validation Failed !

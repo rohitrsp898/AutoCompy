@@ -1,0 +1,8 @@
+-------- Error Logs --------
+
+
+--- Exception FTP 2022-11-19 09:34:03---
+<urlopen error ftp error: URLError('ftp error: error_perm(\'550 CWD failed. "/facts/facts/INVENTORIES_INDEX.csv": directory not found.\')')>
+
+--- Exception Main 2022-11-19 09:34:03---
+argument of type 'NoneType' is not iterable

@@ -1,0 +1,99 @@
+--------- Summary Report ----------
+WEB URL Path : https://raw.githubusercontent.com/rohitrsp898/MSCIT-Projects/main/INVENTORIES.csv
+WEB URL Columns : ('PRODUCT_ID',)
+WEB URL Columns count : 1
+WEB URL records count : 1104
+
+sFtp file Path : /home/pfsu/cdf_data/facts/INVENTORIES.csv
+sFtp file Columns : ('PRODUCT_ID',)
+sFtp file Columns count : 1
+sFtp file records count : 1112
+
+
+Data Type Comparison
+-----------------------
+SOURCE Dtypes : 
+
+product_id    int64
+dtype: object
+
+
+SINK Dtypes : 
+
+product_id    int64
+dtype: object
+
+
+Null Comparison 
+-------------------
+
+SOURCE and SINK have NO NULL values/records !
+
+
+Total NULLs in SOURCE : 0
+Total NULLs in SINK : 0
+
+
+Column wise NULLs in SOURCE 
+
+PRODUCT_ID    0
+dtype: int64
+
+Column wise NULLs in SINK 
+
+PRODUCT_ID    0
+dtype: int64
+
+DataComPy Comparison
+--------------------
+
+DataFrame Summary
+-----------------
+
+  DataFrame  Columns  Rows
+0    SOURCE        1  1112
+1      SINK        1  1104
+
+Column Summary
+--------------
+
+Number of columns in common: 1
+Number of columns in SOURCE but not in SINK: 0
+Number of columns in SINK but not in SOURCE: 0
+
+Row Summary
+-----------
+
+Matched on: product_id
+Any duplicates on match values: Yes
+Absolute Tolerance: 0
+Relative Tolerance: 0
+Number of rows in common: 1,104
+Number of rows in SOURCE but not in SINK: 8
+Number of rows in SINK but not in SOURCE: 0
+
+Number of rows with some compared columns unequal: 0
+Number of rows with all compared columns equal: 1,104
+
+Column Comparison
+-----------------
+
+Number of columns compared with some values unequal: 0
+Number of columns compared with all values equal: 1
+Total number of values which compare unequal: 0
+
+Sample Rows Only in SOURCE (First 10 Columns)
+---------------------------------------------
+
+      product_id
+1110         205
+1105         199
+1107         201
+1108         203
+1104         198
+1111         207
+1109         204
+1106         200
+
+
+Total Time took - - : 0:00:04

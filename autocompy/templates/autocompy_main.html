@@ -1,0 +1,135 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+
+<div class="content-section">
+
+        <form novalidate method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group" style="background='autocompy/static/field.jpg'">
+                <legend class="border-bottom mb-4"><b>Data Comparison</b></legend>
+
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <div class="col">
+                            {{ form.source_field.label(class="col-form-label") }}
+                            {{ form.source_field(class="form-control form-control-sm") }}
+                            <div class="invalid-feedback">
+                                Please provide a valid path.
+                            </div>
+                            <br>
+                            {{ form.sink_field.label(class="col-form-label") }}
+                            {{ form.sink_field(class="form-control form-control-sm") }}
+                            <div class="invalid-feedback">
+                                    Please provide a valid path.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-9">
+                        <div class="col">
+                            {{ form.source.label(class="col-form-label") }}
+                            {{ form.source(class="form-control form-control-sm ") }}
+                            <br>
+                            {{ form.sink.label(class="col-form-label") }}
+                            {{ form.sink(class="form-control form-control-sm") }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <div class="col">
+                                <br>
+                                {{ form.specific_cols_check(class="col-form-label-sm", id="showField", value='yes', onchange="myFunction()") }}
+                                {{ form.specific_cols_check.label(class="col-form-label-sm font-weight-bold") }}
+                                <br><br>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-9">
+                        <div class="col">
+                            <br>
+                            {{ form.specific_cols(class="form-control form-control-sm", id="spec_cols", placeholder="Enter Specific columns", style="display: none;") }}
+                        </div>
+                    </div>
+                    <br><br>
+
+
+                    <div class="form-group col-md-6">
+                        <div class="col">
+                            {{ form.complete(class="btn btn-outline-info btn-block font-weight-bold", onclick="$('#loading').show();") }}
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <div class="col">
+                            {{ form.basic(class="btn btn-outline-info btn-block font-weight-bold", onclick="$('#loading').show();", id="basic_details") }}
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-12">
+                        <div class="col">
+                            <div align="center" id="loading" style="display:none; color: #0070AD;"><img src="https://i.gifer.com/Vp3L.gif" alt="" /></div>
+                        </div>
+                    </div>
+
+
+                    {% if "ERROR" in status %}
+                        <div class="form-group col-md-8">
+                            <div class="col">
+                                <p style="color: #ff0000; padding: 5px;"><b>{{status}}</b></p>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="form-group col-md-auto">
+                            <div class="col">
+
+                                      <p style="color: rgb(0, 112, 173); padding: 7px;"><b>{{status}}</b></p>
+                                      <p style="color: #056192; padding: 7px;">{{file_locations}}</p>
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-auto">
+                            <div class="col">
+                                    {{ form.report(class="form-control form-control-sm", cols="130", rows="30", value=report) }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </fieldset>
+
+        </form>
+    </div>
+{% endblock content %}
+{% block body %}
+        <div class="content-section">
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"><b>Input Formats</b></legend>
+
+                        <p class='text-muted'>
+                            <small><b>ftp/sftp -> /path/file.csv</b></small><br>
+                            <small><b>S3       -> s3://bucket/path/folder or file.csv</b></small><br>
+                            <small><b>Oracle   -> table</b></small><br>
+                            <small><b>Columns  -> col_1, col_2, col_3</b></small><br>
+                        </p>
+
+                </fieldset>
+                <br>
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"><b>Error Info</b></legend>
+                    <div class="form-group">
+                            <div class="col" style="outline:none;">
+                                {{ form.errors(class="form-control form-control-sm",cols="35", rows="40", style='color:red;')}}
+                            </div>
+                        </div>
+                </fieldset>
+
+        </div>
+{% endblock %}
+
+
+
