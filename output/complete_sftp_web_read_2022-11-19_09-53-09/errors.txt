@@ -1,8 +1,0 @@
--------- Error Logs --------
-
-
---- Exception [compare] 2022-11-19 09:53:14---
-Can only compare identically-labeled DataFrame objects
-
---- Message 2022-11-19 09:53:14                             ---
-Dataframe have shuffled/mismatched records

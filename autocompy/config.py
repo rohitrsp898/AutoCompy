@@ -28,11 +28,17 @@ ftp_port = config["ftp"]["port"]
 ftp_username = config["ftp"]["username"]
 ftp_password = config["ftp"]["password"]
 
-# sftp
-sftp_host = config["sftp"]["hostname"]
-sftp_port = config["sftp"]["port"]
-sftp_username = config["sftp"]["username"]
-sftp_password = config["sftp"]["password"]
+# # sftp
+# sftp_host = config["sftp"]["hostname"]
+# sftp_port = config["sftp"]["port"]
+# sftp_username = config["sftp"]["username"]
+# sftp_password = config["sftp"]["password"]
+
+# sftp_local
+sftp_host = config["sftp_local"]["hostname"]
+sftp_port = config["sftp_local"]["port"]
+sftp_username = config["sftp_local"]["username"]
+sftp_password = config["sftp_local"]["password"]
 
 # oracle
 o_hostname = config["oracle"]["hostname"]

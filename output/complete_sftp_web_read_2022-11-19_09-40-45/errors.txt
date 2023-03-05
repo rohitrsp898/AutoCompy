@@ -1,8 +1,0 @@
--------- Error Logs --------
-
-
---- Exception WEB_DATA 2022-11-19 09:40:46---
-Usecols do not match columns, columns expected but not found: ['PRODUCT_ID', 'WAREHOUSE_ID']
-
---- Exception Main 2022-11-19 09:40:47---
-argument of type 'NoneType' is not iterable
