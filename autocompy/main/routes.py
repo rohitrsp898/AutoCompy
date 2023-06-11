@@ -65,7 +65,7 @@ def home():
             form.specific_cols_check.data = False
 
             return render_template('autocompy_main.html', file_locations=file_locations, status=main_webm.status,
-                                   form=form)
+                                   form=form, time_took=f"Time Took - {str(main_webm.total_time)}")
 
         else:
             log.info("ELSE ERROR : Please select and fill all the required fields")
@@ -110,7 +110,8 @@ def home():
             form.source_field.data = "select"
             form.sink_field.data = "select"
 
-            return render_template('autocompy_main.html', form=form, status=main_webm.status)
+            return render_template('autocompy_main.html', form=form, status=main_webm.status,
+                                   time_took=f"Time Took - {str(main_webm.total_time)}")
 
         else:
 
@@ -125,9 +126,3 @@ def home():
 @main.route("/about")
 def about():
     return render_template('about.html', title='About')
-
-# main.add_url_rule('/about', 'about', about)
-
-
-
-

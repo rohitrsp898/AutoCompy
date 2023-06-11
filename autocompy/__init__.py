@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -7,7 +9,8 @@ from autocompy.config import Config
 import logging
 
 
-logging.basicConfig(format="%(asctime)s: %(name)s: %(levelname)s:: %(message)s", filename='autocompy/logs/logs.log',
+logging.basicConfig(format="%(asctime)s: %(name)s: %(levelname)s:: %(message)s",
+                    filename=f"autocompy/logs/logs_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log",
                     encoding='utf-8', level=logging.INFO)
 log = logging.getLogger("AutoCompy")
 

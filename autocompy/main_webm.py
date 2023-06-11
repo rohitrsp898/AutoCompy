@@ -1,16 +1,19 @@
 import multiprocessing
-
-from autocompy.modules import local, ftp, mysql_, oracle, sftp, teradata, s3_sink, s3_source, snow, snowqa, web_read
+import os
 from datetime import datetime
 from multiprocessing.pool import ThreadPool
+from sqlalchemy import insert, create_engine
+from autocompy import config
+from autocompy.autocompy_audit import autocompy_history
+
+import datacompy
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
-import datacompy
-import os, time
-# from autocompy.custom_decorators import time_matrics
-import logging
+from flask_login import current_user
+
 from autocompy import log
+from autocompy.modules import local, ftp, mysql_, oracle, sftp, teradata, s3_sink, s3_source, snow, snowqa, web_read
 
 # set pandas display columns limit to 101 columns
 pd.set_option('display.max_rows', 101)
@@ -19,22 +22,24 @@ print("starts at --", start, "\n")
 
 # start worker processes based on system process cpu cores
 pool = ThreadPool(processes=multiprocessing.cpu_count())
-# print(multiprocessing.cpu_count())
+
 
 # global variables
 status = ''
+job_status = 'Error'
 output_dir = ''
 total_time = 0
 
+
 def time_matrics(func):
     def wrapper(*args, **kwargs):
+        global total_time
         start_time = datetime.now().replace(microsecond=0)
         result = func(*args, **kwargs)
         end_time = datetime.now().replace(microsecond=0)
         total_time = end_time - start_time
-        print(f"\nTotal Time took - - : {str(total_time)}")
-        with open(os.path.join(output_dir, 'report.txt'), 'a', newline='') as f:
-            f.write(f"\nTotal Time took - - : {str(total_time)}")
+
+        autocompy_history(result, total_time)
         return result
 
     return wrapper
@@ -102,6 +107,7 @@ def main(source: str, sink: str, source_path: str, sink_path: str, specific_cols
         log.info("Inside Main_webm : Main")
         global status
         global start
+        global job_status
 
         out_file("complete", source, sink)
 
@@ -166,7 +172,10 @@ def main(source: str, sink: str, source_path: str, sink_path: str, specific_cols
         job_status = "Failed"
 
     finally:
-        output_dict = {"job_status": job_status, "status": status}
+
+        output_dict = {"source": source, "source_path": source_path, "target": sink, "target_path": sink_path,
+                       "job_status": job_status, "status": status, "mode": "Complete"}
+        return output_dict
 
 
 def reports(df_source: DataFrame, df_sink: DataFrame):
@@ -463,4 +472,6 @@ def details(source: str, sink: str, source_path: str, sink_path: str):
         job_status = "Failed"
 
     finally:
-        output_dir = {"job_status": job_status, "status": status}
+        output_dict = {"source": source, "source_path": source_path, "target": sink, "target_path": sink_path,
+                       "job_status": job_status, "status": status, "mode": "Basic"}
+        return output_dict

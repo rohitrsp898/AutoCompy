@@ -10,7 +10,7 @@ from autocompy import main_webm
 
 def cols(db_sch_tb, specific_cols):
     try:
-        connect = create_engine("mysql://root:root@localhost/world")
+        connect = create_engine(f"mysql://{config.m_username}:{config.m_password}@{config.m_host}/{config.m_database}")
 
         if specific_cols[0] in ["*", ""]:
             df1 = pd.read_sql(f'''SELECT * from {db_sch_tb} limit 1''', connect)
@@ -28,7 +28,7 @@ def cols(db_sch_tb, specific_cols):
 
 def dataframe(db_tb, specific_cols):
     try:
-        connect = create_engine("mysql://root:root@localhost/world")
+        connect = create_engine(f"mysql://{config.m_username}:{config.m_password}@{config.m_host}/{config.m_database}")
 
         if specific_cols[0] in ["*", ""]:
             df1 = pd.read_sql(f'select * from {db_tb}', connect)
@@ -56,7 +56,7 @@ def dataframe(db_tb, specific_cols):
 
 def details(db_tb):
     try:
-        connect = create_engine("mysql://root:root@localhost/world")
+        connect = create_engine(f"mysql://{config.m_username}:{config.m_password}@{config.m_host}/{config.m_database}")
         df1 = pd.read_sql(f'select * from {db_tb} limit 1;', connect)
 
         with connect.begin() as cursor:
