@@ -48,32 +48,32 @@ o_password = config["oracle"]["password"]
 o_sid = config["oracle"]["sid"]
 
 # snowflake
-snow_host = config["snow-mvp"]["hostname"]
-snow_username = config["snow-mvp"]["username"]
-snow_password = config["snow-mvp"]["password"]
-
-snowqa_host = config["snow-qa"]["hostname"]
-snowqa_username = config["snow-qa"]["username"]
-snowqa_password = config["snow-qa"]["password"]
-
-# sql server
-ss_server = config["sqlserver"]["server"]
-ss_username = config["sqlserver"]["username"]
-ss_password = config["sqlserver"]["password"]
-ss_database = config["sqlserver"]["database"]
-
-# redshift
-red_host = config["redshift"]['hostname']
-red_username = config['redshift']['username']
-red_password = config["redshift"]['password']
-red_port = config["redshift"]['port']
-red_db = config["redshift"]['db_name']
-
-# teradata
-td_host = config["teradata"]["hostname"]
-td_port = config["teradata"]["port"]
-td_username = config["teradata"]["username"]
-td_password = config["teradata"]["password"]
+# snow_host = config["snow-mvp"]["hostname"]
+# snow_username = config["snow-mvp"]["username"]
+# snow_password = config["snow-mvp"]["password"]
+#
+# snowqa_host = config["snow-qa"]["hostname"]
+# snowqa_username = config["snow-qa"]["username"]
+# snowqa_password = config["snow-qa"]["password"]
+#
+# # sql server
+# ss_server = config["sqlserver"]["server"]
+# ss_username = config["sqlserver"]["username"]
+# ss_password = config["sqlserver"]["password"]
+# ss_database = config["sqlserver"]["database"]
+#
+# # redshift
+# red_host = config["redshift"]['hostname']
+# red_username = config['redshift']['username']
+# red_password = config["redshift"]['password']
+# red_port = config["redshift"]['port']
+# red_db = config["redshift"]['db_name']
+#
+# # teradata
+# td_host = config["teradata"]["hostname"]
+# td_port = config["teradata"]["port"]
+# td_username = config["teradata"]["username"]
+# td_password = config["teradata"]["password"]
 
 # mysql
 m_host = config["mysql"]["hostname"]

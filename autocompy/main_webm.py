@@ -7,7 +7,8 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 import datacompy
-import os
+import os, time
+# from autocompy.custom_decorators import time_matrics
 import logging
 from autocompy import log
 
@@ -23,6 +24,20 @@ pool = ThreadPool(processes=multiprocessing.cpu_count())
 # global variables
 status = ''
 output_dir = ''
+total_time = 0
+
+def time_matrics(func):
+    def wrapper(*args, **kwargs):
+        start_time = datetime.now().replace(microsecond=0)
+        result = func(*args, **kwargs)
+        end_time = datetime.now().replace(microsecond=0)
+        total_time = end_time - start_time
+        print(f"\nTotal Time took - - : {str(total_time)}")
+        with open(os.path.join(output_dir, 'report.txt'), 'a', newline='') as f:
+            f.write(f"\nTotal Time took - - : {str(total_time)}")
+        return result
+
+    return wrapper
 
 
 def get_dfs(source: str, source_path: str, sink: str, sink_path: str, specific_cols: list) -> tuple:
@@ -70,6 +85,7 @@ def out_file(mode, source=None, sink=None):
     return output_dir
 
 
+@time_matrics
 def main(source: str, sink: str, source_path: str, sink_path: str, specific_cols: list):
     """
     main function do all the processing and comparison of dataframe like Nulls check, datatype check and
@@ -86,8 +102,7 @@ def main(source: str, sink: str, source_path: str, sink_path: str, specific_cols
         log.info("Inside Main_webm : Main")
         global status
         global start
-        start = datetime.now().replace(microsecond=0)  # Start time
-        print("starts at --", start, "\n")
+
         out_file("complete", source, sink)
 
         log.info("MAIN : pool Src and sink started")
@@ -141,26 +156,17 @@ def main(source: str, sink: str, source_path: str, sink_path: str, specific_cols
 
             print("execution complete")
             log.info("MAIN : execution complete")
-
-        end_time()
+            job_status = "Success"
 
     except Exception as e:
         print(e)
         with open(os.path.join(output_dir, 'errors.txt'), 'a', newline='') as f:
             f.write(f"\n\n--- Exception Main {datetime.now().replace(microsecond=0)}---\n{e}")
         status = "ERROR: [Main] - Something Went Wrong !! Please check error info !"
+        job_status = "Failed"
 
-
-def end_time():
-    """
-    Calculate total execution time.
-    :return: total time took to process
-    """
-    end = datetime.now().replace(microsecond=0)  # End time
-    print("\nends at - - ", end)
-    print("Total Time took - - :", end - start)  # Total time took
-    with open(os.path.join(output_dir, 'report.txt'), 'a', newline='') as f:
-        f.write(f"\nTotal Time took - - : {end - start}")
+    finally:
+        output_dict = {"job_status": job_status, "status": status}
 
 
 def reports(df_source: DataFrame, df_sink: DataFrame):
@@ -200,7 +206,6 @@ def compare(source_df: DataFrame, sink_df: DataFrame):
     try:
         comp = source_df.compare(sink_df, align_axis=0).rename(index={'self': 'Source', 'other': 'Sink'},
                                                                level=-1)  # Compare the dataframes
-        print(comp)
         if comp.shape[0] > 0:  # If there are any differences in dataframes
             with open(os.path.join(output_dir, 'Compared_records.csv'), 'w',
                       newline='') as f:  # Write the differences to csv file
@@ -226,7 +231,7 @@ def df_dtypes(source_df: DataFrame, sink_df: DataFrame):
         with open(os.path.join(output_dir, 'report.txt'), 'a') as f:
             f.write(f"\nData Type Comparison\n")
             f.write(f"-----------------------\n")
-            # f.write(f"\n{dtype}\n\n")
+
             f.write(f"SOURCE Dtypes : \n\n{source_df.dtypes}\n\n\n")
             f.write(f"SINK Dtypes : \n\n{sink_df.dtypes}\n\n")
 
@@ -425,6 +430,7 @@ def process(source_df: DataFrame, sink_df: DataFrame):
         status = "ERROR: Something Went Wrong! Please provide correct details!!"
 
 
+@time_matrics
 def details(source: str, sink: str, source_path: str, sink_path: str):
     """
     add dataframe basic details like columns name, count etc
@@ -438,8 +444,6 @@ def details(source: str, sink: str, source_path: str, sink_path: str):
     try:
         log.info("DETAIL : INSIDE DETAILS")
         out_file("basic", source, sink)
-        start = datetime.now().replace(microsecond=0)  # Start time
-        print("starts at --", start, "\n")
         global status
 
         log.info("DETAIL : BASIC DETAILS started")
@@ -448,15 +452,15 @@ def details(source: str, sink: str, source_path: str, sink_path: str):
 
         print("\nBasic Details function done !\n")
         log.info("DETAIL : Basic Details function done !")
-        #status = "Basic Comparison Completed !"
-        end = datetime.now().replace(microsecond=0)  # End time
-        print("\nends at - - ", end)
-        print("Total Time took - - :", end - start)  # Total time took
-        with open(os.path.join(output_dir, 'report.txt'), 'a', newline='') as f:
-            f.write(f"\nTotal Time took - - : {end - start}")
+        job_status = "Success"
+        status = "Details fetched successfully !"
 
     except Exception as e:
         print("Detail--> ", e)
         with open(os.path.join(output_dir, 'errors.txt'), 'a', newline='') as f:
             f.write(f"\n\n--- Exception DETAIL {datetime.now().replace(microsecond=0)}---\n{e}")
         status = f"ERROR: DETAILS - {e}"
+        job_status = "Failed"
+
+    finally:
+        output_dir = {"job_status": job_status, "status": status}

@@ -1,12 +1,12 @@
-from flask import (render_template, url_for, flash, redirect, request, abort, Blueprint)
-from flask_login import current_user, login_required
-from autocompy import db
-from autocompy.models import User
-import logging, os
-from autocompy import main_webm
-from autocompy.main.forms import AutoCompyForm
+import os
+from datetime import datetime
+
+from flask import (render_template, flash, request, Blueprint)
+from flask_login import login_required
 
 from autocompy import log
+from autocompy import main_webm
+from autocompy.main.forms import AutoCompyForm
 
 main = Blueprint('main', __name__)
 
@@ -27,7 +27,7 @@ def home():
         log.info("Inside completed_details - Index ")
 
         # main_webm.out_file()
-        log.info(" Main_webm out files called ")
+        log.info("Main_webm out files called ")
         source = form.source_field.data
         sink = form.sink_field.data
         source_path = form.source.data.strip()
@@ -97,7 +97,7 @@ def home():
             main_webm.details(source, sink, source_path, sink_path)
             log.info(f"main detail function completed")
 
-            #file_locations = f'File Location : {main_webm.output_dir}'
+            # file_locations = f'File Location : {main_webm.output_dir}'
 
             with open(os.path.join(main_webm.output_dir, "report.txt"), 'r') as f:
                 data = f.read()
@@ -125,3 +125,9 @@ def home():
 @main.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+# main.add_url_rule('/about', 'about', about)
+
+
+
+
