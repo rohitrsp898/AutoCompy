@@ -10,7 +10,7 @@ import logging
 
 
 logging.basicConfig(format="%(asctime)s: %(name)s: %(levelname)s:: %(message)s",
-                    filename=f"autocompy/logs/logs_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log",
+                    filename=f"autocompy/logs/logs_{datetime.now().strftime('%Y-%m-%d_%H-%M')}.log",
                     encoding='utf-8', level=logging.INFO)
 log = logging.getLogger("AutoCompy")
 
