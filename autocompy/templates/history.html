@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="chart-item">
+    <canvas id="chart1"></canvas><br>
+    <p align="center"><u>No of times user perform the validation</u></p><br><br>
+</div>
+<div class="chart-item">
+    <canvas id="chart2"></canvas><br>
+    <p align="center"><u>Status of execution</u></p><br><br>
+</div>
+<div class="chart-item">
+    <canvas id="chart3"></canvas><br>
+    <p align="center"><u>Job status executed by user</u></p><br><br>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chroma-js@2.1.1"></script>
+
+<script>
+
+function getRandomColor() { //generates random colours and puts them in string
+  var colors = [];
+  for (var i = 0; i < 12; i++) {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var x = 0; x < 6; x++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    colors.push(color);
+  }
+  return colors;
+}
+
+
+
+
+        var data2 = JSON.parse('{{ data2|safe }}');
+        var data3 = JSON.parse('{{ data3|safe }}');
+
+        //chart1
+
+        // Extract usernames and counts from the data
+        var usernames = Object.keys(data2);
+        var counts = Object.values(data2);
+
+
+                  const ctx1 = document.getElementById('chart1');
+
+                  new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                      labels: usernames,
+                      datasets: [{
+                        label: 'Total executed',
+                        data: counts,
+                        borderWidth: 1,
+                        backgroundColor: getRandomColor()
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+
+
+
+                  //chart2
+
+                        // Extract usernames and counts from the data
+                        var status_code = Object.keys(data3);
+                        var counts = Object.values(data3);
+
+
+                  const ctx2 = document.getElementById('chart2');
+
+                  new Chart(ctx2, {
+                    type: 'radar',
+                    data: {
+                      labels: status_code,
+                      datasets: [{
+                        label: 'Total executed',
+                        data: counts,
+                        borderWidth: 1,
+                        backgroundColor: ['#0b8f6b','#f0ad4e','#d33c5c']
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+
+
+        var users = JSON.parse('{{ users|safe }}');
+        var error = JSON.parse('{{ error|safe }}');
+        var failed = JSON.parse('{{ failed|safe }}');
+        var success = JSON.parse('{{ success|safe }}');
+
+
+
+                        // Create the bar chart
+                        var ctx3 = document.getElementById('chart3').getContext('2d');
+                        var barChart = new Chart(ctx3, {
+                            type: 'bar',
+                            data: {
+                                labels: users,
+                                datasets: [
+                                    {
+                                        label: 'Success',
+                                        backgroundColor: 'green',
+                                        data: success
+                                    },
+                                    {
+                                        label: 'Failure',
+                                        backgroundColor: 'red',
+                                        data: failed
+                                    },
+                                    {
+                                        label: 'Error',
+                                        backgroundColor: 'orange',
+                                        data: error
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        stacked: true
+                                    },
+                                    y: {
+                                        stacked: true,
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+
+
+
+</script>
+
+
+{% endblock content %}

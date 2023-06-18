@@ -81,3 +81,17 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+.chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Adjust the size of each chart canvas */
+        canvas {
+            width: 170%;
+            height: 500px;
+        }
