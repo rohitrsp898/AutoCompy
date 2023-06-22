@@ -1,22 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-
-<div class="chart-item">
-    <canvas id="chart1"></canvas><br>
-    <p align="center"><u>No of times user perform the validation</u></p><br><br>
-</div>
-<div class="chart-item">
-    <canvas id="chart2"></canvas><br>
-    <p align="center"><u>Status of execution</u></p><br><br>
-</div>
-<div class="chart-item">
-    <canvas id="chart3"></canvas><br>
-    <p align="center"><u>Job status executed by user</u></p><br><br>
-</div>
-<div class="chart-item">
-    <canvas id="chart4"></canvas><br>
-    <p align="center"><u>Total execution</u></p><br><br>
-</div>
+    <div class="chart-row">
+        <div class="chart-container">
+            <canvas id="chart1"></canvas><br>
+            <p align="center"><u>No of times user perform the validation</u></p><br><br>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart2"></canvas><br>
+            <p align="center"><u>Status of execution</u></p><br><br>
+        </div>
+    </div>
+    <div class="chart-row">
+        <div class="chart-container">
+            <canvas id="chart3"></canvas><br>
+            <p align="center"><u>Job status executed by user</u></p><br><br>
+        </div>
+        <div class="chart-container">
+            <canvas id="chart4"></canvas><br>
+            <p align="center"><u>Total execution</u></p><br><br>
+        </div>
+    </div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -38,183 +41,183 @@ function getRandomColor() { //generates random colours and puts them in string
 }
 
 
+var data2 = JSON.parse('{{ data2|safe }}');
+var data3 = JSON.parse('{{ data3|safe }}');
+
+//chart1
+
+// Extract usernames and counts from the data
+var usernames = Object.keys(data2);
+var counts = Object.values(data2);
 
 
-        var data2 = JSON.parse('{{ data2|safe }}');
-        var data3 = JSON.parse('{{ data3|safe }}');
+const ctx1 = document.getElementById('chart1');
 
-        //chart1
+new Chart(ctx1, {
+type: 'bar',
+data: {
+  labels: usernames,
+  datasets: [{
+    label: 'Total executed',
+    data: counts,
+    borderWidth: 1,
+    backgroundColor: getRandomColor(),
+    borderColor: 'rgb(54, 162, 235)',
+    pointBackgroundColor: 'rgb(54, 162, 235)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(54, 162, 235)'
+  }]
+},
+options: {
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+}
+});
 
-        // Extract usernames and counts from the data
-        var usernames = Object.keys(data2);
-        var counts = Object.values(data2);
+//chart2
 
+// Extract usernames and counts from the data
+var status_code = Object.keys(data3);
+var counts = Object.values(data3);
 
-                  const ctx1 = document.getElementById('chart1');
+const ctx2 = document.getElementById('chart2');
 
-                  new Chart(ctx1, {
-                    type: 'bar',
-                    data: {
-                      labels: usernames,
-                      datasets: [{
-                        label: 'Total executed',
-                        data: counts,
-                        borderWidth: 1,
-                        backgroundColor: getRandomColor()
-                      }]
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
-                        }
-                      }
-                    }
-                  });
+new Chart(ctx2, {
+type: 'polarArea',
+data: {
+  labels: status_code,
+  datasets: [{
+    label: 'Total executed',
+    data: counts,
+    borderWidth: 1,
+    fill: true,
+    backgroundColor: [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 205, 86, 0.7)'
+              ],
+    borderColor: 'rgb(54, 162, 235)',
+    pointBackgroundColor: 'rgb(54, 162, 235)',
+    pointBorderColor: '#fff',
+    pointHoverBackgroundColor: '#fff',
+    pointHoverBorderColor: 'rgb(54, 162, 235)'
+  }]
+},
+options: {
+responsive: true,
 
+  scales: {
+    y: {
+      beginAtZero: true
+    }
+  }
+}
+});
 
+//chart 3
+var users = JSON.parse('{{ users|safe }}');
+var error = JSON.parse('{{ error|safe }}');
+var failed = JSON.parse('{{ failed|safe }}');
+var success = JSON.parse('{{ success|safe }}');
 
-                  //chart2
+// Create the bar chart
+var ctx3 = document.getElementById('chart3').getContext('2d');
+var barChart = new Chart(ctx3, {
+type: 'bar',
+data: {
+    labels: users,
+    datasets: [
+        {
+            label: 'Success',
+            data: success,
+            fill: true,
+            backgroundColor: 'rgba(0, 155, 119, 0.7)',
+            borderColor: 'rgb(0, 155, 119)',
+            pointBackgroundColor: 'rgb(0, 155, 119)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(0, 155, 119)'
+        },
+        {
+            label: 'Failure',
+            data: failed,
+            fill: true,
+            backgroundColor: 'rgba(221, 65, 36, 0.7)',
+            borderColor: 'rgb(221, 65, 36)',
+            pointBackgroundColor: 'rgb(221, 65, 36)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(221, 65, 36)'
+        },
+        {
+            label: 'Error',
 
-                        // Extract usernames and counts from the data
-                        var status_code = Object.keys(data3);
-                        var counts = Object.values(data3);
-
-
-                  const ctx2 = document.getElementById('chart2');
-
-                  new Chart(ctx2, {
-                    type: 'radar',
-                    data: {
-                      labels: status_code,
-                      datasets: [{
-                        label: 'Total executed',
-                        data: counts,
-                        borderWidth: 1,
-                        fill: true,
-                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        pointBackgroundColor: 'rgb(54, 162, 235)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgb(54, 162, 235)'
-                      }]
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
-                        }
-                      },
-                      elements: {
-                          line: {
-                            borderWidth: 3
-                          }
-                        }
-                    }
-                  });
-
-
-        var users = JSON.parse('{{ users|safe }}');
-        var error = JSON.parse('{{ error|safe }}');
-        var failed = JSON.parse('{{ failed|safe }}');
-        var success = JSON.parse('{{ success|safe }}');
-
-
-
-                        // Create the bar chart
-                        var ctx3 = document.getElementById('chart3').getContext('2d');
-                        var barChart = new Chart(ctx3, {
-                            type: 'bar',
-                            data: {
-                                labels: users,
-                                datasets: [
-                                    {
-                                        label: 'Success',
-
-                                        data: success,
-                                        fill: true,
-                                        backgroundColor: 'rgba(0, 155, 119, 0.7)',
-                                        borderColor: 'rgb(0, 155, 119)',
-                                        pointBackgroundColor: 'rgb(0, 155, 119)',
-                                        pointBorderColor: '#fff',
-                                        pointHoverBackgroundColor: '#fff',
-                                        pointHoverBorderColor: 'rgb(0, 155, 119)'
-                                    },
-                                    {
-                                        label: 'Failure',
-                                        data: failed,
-                                        fill: true,
-                                        backgroundColor: 'rgba(221, 65, 36, 0.7)',
-                                        borderColor: 'rgb(221, 65, 36)',
-                                        pointBackgroundColor: 'rgb(221, 65, 36)',
-                                        pointBorderColor: '#fff',
-                                        pointHoverBackgroundColor: '#fff',
-                                        pointHoverBorderColor: 'rgb(221, 65, 36)'
-                                    },
-                                    {
-                                        label: 'Error',
-
-                                        data: error,
-                                        fill: true,
-                                        backgroundColor: 'rgba(255, 195, 0, 0.7)',
-                                        borderColor: 'rgb(255, 195, 0)',
-                                        pointBackgroundColor: 'rgb(255, 195, 0)',
-                                        pointBorderColor: '#fff',
-                                        pointHoverBackgroundColor: '#fff',
-                                        pointHoverBorderColor: 'rgb(255, 195, 0)'
-                                    }
-                                ]
-                            },
-                            options: {
-                                scales: {
-                                    x: {
-                                        stacked: true
-                                    },
-                                    y: {
-                                        stacked: true,
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
+            data: error,
+            fill: true,
+            backgroundColor: 'rgba(255, 195, 0, 0.7)',
+            borderColor: 'rgb(255, 195, 0)',
+            pointBackgroundColor: 'rgb(255, 195, 0)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgb(255, 195, 0)'
+        }
+    ]
+},
+options: {
+    scales: {
+        x: {
+            stacked: true
+        },
+        y: {
+            stacked: true,
+            beginAtZero: true
+        }
+    }
+}
+});
 
 
+// chart 4
+var data4 = JSON.parse('{{ data4|safe }}');
 
-        var data4 = JSON.parse('{{ data4|safe }}');
-
-
-
-        // Extract usernames and counts from the data
-        var dates = Object.keys(data4);
-        var totals = Object.values(data4);
+// Extract usernames and counts from the data
+var dates = Object.keys(data4);
+var totals = Object.values(data4);
 
 
-            var ctx4 = document.getElementById('chart4').getContext('2d');
-            var lineChart = new Chart(ctx4, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'count',
-                    data: totals,
-                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                    borderColor: 'rgba(0, 123, 255, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+var ctx4 = document.getElementById('chart4').getContext('2d');
+var lineChart = new Chart(ctx4, {
+type: 'line',
+data: {
+    labels: dates,
+    datasets: [{
+        label: 'count',
+        data: totals,
+        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+        borderColor: 'rgba(0, 123, 255, 1)',
+        borderWidth: 1,
+        borderColor: 'rgb(54, 162, 235)',
+        pointBackgroundColor: 'rgb(54, 162, 235)',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: 'rgb(54, 162, 235)'
+    }]
+},
+options: {
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+}
+});
 
 
 
 </script>
-
 
 {% endblock content %}
