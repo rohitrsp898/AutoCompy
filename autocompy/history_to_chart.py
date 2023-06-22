@@ -14,9 +14,9 @@ def get_audit_data(specific_cols):
         connect = create_engine(f"mysql://{config.m_username}:{config.m_password}@{config.m_host}/{config.m_database}")
 
         if specific_cols[0] in ["*", ""]:
-            df1 = pd.read_sql(f'''SELECT * from autocompy.autocompy_audit_history''', connect)
+            df1 = pd.read_sql(f'''SELECT * from autocompy.autocompy_audit''', connect)
         else:
-            df1 = pd.read_sql(f'''SELECT {",".join(specific_cols)} from autocompy.autocompy_audit_history''', connect)
+            df1 = pd.read_sql(f'''SELECT {",".join(specific_cols)} from autocompy.autocompy_audit''', connect)
 
         return df1
 
@@ -30,7 +30,6 @@ def get_user_no_exc_bar_chart():
     :return:
     """
 
-    # df = get_audit_data(["username"]).groupby("username")['username'].count()
     df = get_audit_data(["username"])
     data = df["username"].value_counts()
     return data.to_json(orient='index')
@@ -62,6 +61,7 @@ def get_state_code_bar_chart():
     failed = []
     success = []
     error = []
+
     for data, values in data_dict.items():
         user_name.append(data)
         error.append(values['Error'])
@@ -74,3 +74,13 @@ def get_state_code_bar_chart():
     success = json.dumps(success)
 
     return user_name, error, failed, success
+
+
+def get_total_count_based_on_date():
+    data = get_audit_data(["executed_at"])
+    data["execution_date"] = data['executed_at'].str.split(' ').str[0]
+    count_data = data["execution_date"].value_counts()
+
+    return count_data.to_json(orient='index')
+
+

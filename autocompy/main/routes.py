@@ -128,9 +128,9 @@ def history():
     users, error, failed, success = hc.get_state_code_bar_chart()  # success fail and error
     data2 = hc.get_user_no_exc_bar_chart()
     data3 = hc.get_state_code_radar_chart()  # radar chart
-
+    data4 = hc.get_total_count_based_on_date()
     return render_template('history.html', title='history', users=users, error=error, failed=failed, success=success,
-                           data2=data2, data3=data3)
+                           data2=data2, data3=data3, data4=data4)
 
 
 @main.route("/about")

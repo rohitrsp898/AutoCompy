@@ -17,8 +17,8 @@ from autocompy.modules import local, ftp, mysql_, oracle, sftp, teradata, s3_sin
 
 # set pandas display columns limit to 101 columns
 pd.set_option('display.max_rows', 101)
-start = datetime.now().replace(microsecond=0)  # Start time
-print("starts at --", start, "\n")
+# start = datetime.now().replace(microsecond=0)  # Start time
+# print("starts at --", start, "\n")
 
 # start worker processes based on system process cpu cores
 pool = ThreadPool(processes=multiprocessing.cpu_count())
@@ -39,7 +39,7 @@ def time_matrics(func):
         end_time = datetime.now().replace(microsecond=0)
         total_time = end_time - start_time
 
-        autocompy_history(result, total_time)
+        autocompy_history(result, total_time, start_time)
         return result
 
     return wrapper

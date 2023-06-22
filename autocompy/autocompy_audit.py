@@ -19,7 +19,7 @@ Base = declarative_base()
 
 # Define a sample model class
 class autocompy_audit_history(Base):
-    __tablename__ = 'autocompy_audit_history'
+    __tablename__ = 'autocompy_audit'
     autocompy_trx_id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(20))
     user_email = Column(String(40))
@@ -31,6 +31,7 @@ class autocompy_audit_history(Base):
     mode = Column(String(10))
     status_code = Column(String(10))
     status_description = Column(String(50))
+    executed_at = Column(String(40))
 
 
 # Create the database tables
@@ -40,7 +41,7 @@ Base.metadata.create_all(engine)
 session = Session()
 
 
-def autocompy_history(output_dict, execution_time):
+def autocompy_history(output_dict, execution_time, executed_at):
 
     data = {
         'username': current_user.username,
@@ -52,7 +53,8 @@ def autocompy_history(output_dict, execution_time):
         'target_path': output_dict.get("target_path"),
         'mode': output_dict.get("mode"),
         'status_code': output_dict.get("job_status"),
-        'status_description': output_dict.get("status")
+        'status_description': output_dict.get("status"),
+        'executed_at': str(executed_at)
     }
 
     print(data)

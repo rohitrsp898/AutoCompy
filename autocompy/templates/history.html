@@ -13,6 +13,10 @@
     <canvas id="chart3"></canvas><br>
     <p align="center"><u>Job status executed by user</u></p><br><br>
 </div>
+<div class="chart-item">
+    <canvas id="chart4"></canvas><br>
+    <p align="center"><u>Total execution</u></p><br><br>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -87,7 +91,13 @@ function getRandomColor() { //generates random colours and puts them in string
                         label: 'Total executed',
                         data: counts,
                         borderWidth: 1,
-                        backgroundColor: ['#0b8f6b','#f0ad4e','#d33c5c']
+                        fill: true,
+                        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        pointBackgroundColor: 'rgb(54, 162, 235)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgb(54, 162, 235)'
                       }]
                     },
                     options: {
@@ -95,7 +105,12 @@ function getRandomColor() { //generates random colours and puts them in string
                         y: {
                           beginAtZero: true
                         }
-                      }
+                      },
+                      elements: {
+                          line: {
+                            borderWidth: 3
+                          }
+                        }
                     }
                   });
 
@@ -116,18 +131,38 @@ function getRandomColor() { //generates random colours and puts them in string
                                 datasets: [
                                     {
                                         label: 'Success',
-                                        backgroundColor: 'green',
-                                        data: success
+
+                                        data: success,
+                                        fill: true,
+                                        backgroundColor: 'rgba(0, 155, 119, 0.7)',
+                                        borderColor: 'rgb(0, 155, 119)',
+                                        pointBackgroundColor: 'rgb(0, 155, 119)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgb(0, 155, 119)'
                                     },
                                     {
                                         label: 'Failure',
-                                        backgroundColor: 'red',
-                                        data: failed
+                                        data: failed,
+                                        fill: true,
+                                        backgroundColor: 'rgba(221, 65, 36, 0.7)',
+                                        borderColor: 'rgb(221, 65, 36)',
+                                        pointBackgroundColor: 'rgb(221, 65, 36)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgb(221, 65, 36)'
                                     },
                                     {
                                         label: 'Error',
-                                        backgroundColor: 'orange',
-                                        data: error
+
+                                        data: error,
+                                        fill: true,
+                                        backgroundColor: 'rgba(255, 195, 0, 0.7)',
+                                        borderColor: 'rgb(255, 195, 0)',
+                                        pointBackgroundColor: 'rgb(255, 195, 0)',
+                                        pointBorderColor: '#fff',
+                                        pointHoverBackgroundColor: '#fff',
+                                        pointHoverBorderColor: 'rgb(255, 195, 0)'
                                     }
                                 ]
                             },
@@ -143,6 +178,39 @@ function getRandomColor() { //generates random colours and puts them in string
                                 }
                             }
                         });
+
+
+
+        var data4 = JSON.parse('{{ data4|safe }}');
+
+
+
+        // Extract usernames and counts from the data
+        var dates = Object.keys(data4);
+        var totals = Object.values(data4);
+
+
+            var ctx4 = document.getElementById('chart4').getContext('2d');
+            var lineChart = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'count',
+                    data: totals,
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
 
 
