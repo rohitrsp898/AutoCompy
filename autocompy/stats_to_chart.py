@@ -1,6 +1,7 @@
 import json
 import os
 from datetime import datetime
+from itertools import islice
 
 import pandas as pd
 from sqlalchemy import create_engine, text
@@ -21,7 +22,7 @@ def get_audit_data(specific_cols):
         return df1
 
     except Exception as e:
-        print("Exception at modules under history_to_chart ", e)
+        print("Exception at modules under stats_to_chart ", e)
 
 
 def get_user_no_exc_bar_chart():
@@ -78,9 +79,20 @@ def get_state_code_bar_chart():
 
 def get_total_count_based_on_date():
     data = get_audit_data(["executed_at"])
+    data = data.sort_values(by=["executed_at"])
     data["execution_date"] = data['executed_at'].str.split(' ').str[0]
+
     count_data = data["execution_date"].value_counts()
 
-    return count_data.to_json(orient='index')
+    json_count_str = count_data.to_json(orient='index')
+    json_data = json.loads(json_count_str)
+
+    # Sort the dictionary based on keys
+    sorted_data = {k: v for k, v in sorted(json_data.items())}
+
+    first_five_items = dict(islice(sorted_data.items(), 5))
+    sorted_json_data = json.dumps(first_five_items)
+
+    return sorted_json_data
 
 

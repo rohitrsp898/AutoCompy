@@ -4,7 +4,7 @@ from datetime import datetime
 from multiprocessing.pool import ThreadPool
 from sqlalchemy import insert, create_engine
 from autocompy import config
-from autocompy.autocompy_audit import autocompy_history
+from autocompy.autocompy_audit import autocompy_stats
 
 import datacompy
 import numpy as np
@@ -39,7 +39,7 @@ def time_matrics(func):
         end_time = datetime.now().replace(microsecond=0)
         total_time = end_time - start_time
 
-        autocompy_history(result, total_time, start_time)
+        autocompy_stats(result, total_time, start_time)
         return result
 
     return wrapper
@@ -76,7 +76,7 @@ def get_dfs(source: str, source_path: str, sink: str, sink_path: str, specific_c
 def out_file(mode, source=None, sink=None):
     """
     Creates empty reports and errors text files
-    :return: NONE
+    :return: output directories
     """
     global output_dir
     output_dir = os.path.join(os.getcwd(), "output",

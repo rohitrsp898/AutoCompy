@@ -6,7 +6,7 @@ from flask_login import login_required
 from autocompy import log
 from autocompy import main_webm
 from autocompy.main.forms import AutoCompyForm
-from autocompy import history_to_chart as hc
+from autocompy import stats_to_chart as hc
 
 main = Blueprint('main', __name__)
 
@@ -123,13 +123,14 @@ def home():
     return render_template("autocompy_main.html", form=form)
 
 
-@main.route("/history")
-def history():
+@main.route("/stats")
+@login_required
+def stats():
     users, error, failed, success = hc.get_state_code_bar_chart()  # success fail and error
     data2 = hc.get_user_no_exc_bar_chart()
     data3 = hc.get_state_code_radar_chart()  # radar chart
     data4 = hc.get_total_count_based_on_date()
-    return render_template('history.html', title='history', users=users, error=error, failed=failed, success=success,
+    return render_template('stats.html', title='stats', users=users, error=error, failed=failed, success=success,
                            data2=data2, data3=data3, data4=data4)
 
 

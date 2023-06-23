@@ -18,7 +18,7 @@ Base = declarative_base()
 
 
 # Define a sample model class
-class autocompy_audit_history(Base):
+class autocompy_audit_stats(Base):
     __tablename__ = 'autocompy_audit'
     autocompy_trx_id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(20))
@@ -41,7 +41,7 @@ Base.metadata.create_all(engine)
 session = Session()
 
 
-def autocompy_history(output_dict, execution_time, executed_at):
+def autocompy_stats(output_dict, execution_time, executed_at):
 
     data = {
         'username': current_user.username,
@@ -59,10 +59,10 @@ def autocompy_history(output_dict, execution_time, executed_at):
 
     print(data)
     # Perform a sample insert
-    new_user = autocompy_audit_history(**data)
+    new_user = autocompy_audit_stats(**data)
     session.add(new_user)
     session.commit()
-    print("History captured successfully ")
+    print("Stats captured successfully ")
 
     # Close the session
     session.close()
