@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class AutoCompyForm(FlaskForm):
     sources = [('select', 'Select'), ('s3_source', 'S3*'), ('teradata', 'Teradata*'), ('ftp', 'FTP'), ('sftp', 'SFTP'),
-               ('oracle', 'Oracle'), ('local', 'Local')]
+               ('oracle', 'Oracle*'), ('local', 'Local')]
     sinks = [('select', 'Select'), ('s3_sink', 'S3*'), ('snow', 'snow*'), ('mysql_', 'MySQL'), ('local', 'Local'),
              ('web_read', 'HTTP')]
 
